@@ -22,7 +22,7 @@ router.post(
     }
 
     const { email, password } = req.body;
-    //throw new DatabaseConnectionError();
+    throw new DatabaseConnectionError();
 
     console.log("Creating user...");
     res.send("Creating user...!");
