@@ -1,7 +1,8 @@
 import express from "express";
 import 'express-async-errors';
-
+import mongoose from "mongoose";
 import { json } from "body-parser";
+
 import { currentUserRouter, } from "./routes/current-user";
 import { signoutRouter } from "./routes/signout";
 import { signinUserRouter } from "./routes/signin";
@@ -28,7 +29,18 @@ app.get('/api/users', (req, res) => {
   res.send('Hi from users service!');
 })
 
+const start = async () => {
+  try {
+    await mongoose.connect("mongodb://auth-mongo-srv:27017/auth", )
+    console.log("Connected to MongoDB");
+  } catch (error:any) {
+     console.error(`Error on connection ${error.message}`)
+  }
 
-app.listen(3000, () => {
-  console.log("Listening on port 3000!!!!!Yeah");
-});
+  app.listen(3000, () => {
+    console.log("Listening on port 3000!!!!!Yeah");
+  });
+  
+}
+
+start();
