@@ -30,3 +30,19 @@ INGRESS
     1.  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
     2.  kubectl get pods --namespace=ingress-nginx  
     3.  on chroome type 'thisisunsafe'
+
+
+CREATE A SECRET
+
+    1.
+        kubectl create secret generic jwt-secret --from-literal=JWT_KEY==asdf
+        kubectl get secrets
+    
+    2.
+        On your -depl.yaml on container part
+        env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
