@@ -1,10 +1,14 @@
 import express, { Request, Response } from "express";
 import { body} from "express-validator";
-const router = express.Router();
+import jwt from "jsonwebtoken";
 
 import { User } from "../models/user";
-import jwt from "jsonwebtoken";
+import { BadRequestError } from "../errors/bad-request-error";
+import { Password } from "../services/password";
 import { validateRequest } from "../middleware/validate-request";
+
+
+const router = express.Router();
 
 router.post(
   "/api/users/signin",
@@ -18,7 +22,33 @@ router.post(
 
     const existingUser = await User.findOne({ email });
 
-    return res.status(201).send({});
+    if (!existingUser) {
+      throw new BadRequestError("Invalid credentials");
+    }
+
+    const passwordsMatch = await Password.compare(
+      existingUser.password,
+      password
+    );
+
+    if(!passwordsMatch){
+      throw new BadRequestError("Invalid credentials");
+    }
+
+    // Generate JWT
+    const userJwt = jwt.sign(
+      {
+        id: existingUser.id,
+        email: existingUser.email,
+      },
+      process.env.JWT_KEY!
+    );
+  
+    req.session = {
+      jwt:userJwt
+    }
+
+    return res.status(200).send({message:"User signed in successfully"});
   }
 );
 
