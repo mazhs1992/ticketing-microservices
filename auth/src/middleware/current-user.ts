@@ -20,7 +20,7 @@ declare global {
 export const currentUser = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   if (!req.session?.jwt) {
     return next();
@@ -29,7 +29,7 @@ export const currentUser = (
   try {
     const payload = jwt.verify(
       req.session.jwt,
-      process.env.JWT_KEY!
+      process.env.JWT_KEY!,
     ) as UserPayload;
     req.currentUser = payload;
   } catch (err) {}

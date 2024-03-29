@@ -14,11 +14,11 @@ export default () => {
       password,
     },
     onSuccess: () => Router.push("/"),
-  })
+  });
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    doRequest()
+    doRequest();
 
     setEmail("");
     setPassword("");

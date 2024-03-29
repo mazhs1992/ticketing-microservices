@@ -15,9 +15,8 @@ spec:
       containers:
         - name: client
           image: vagmaz/client
-          
----
 
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,4 +30,3 @@ spec:
       port: 3000
       targetPort: 3000
   type: NodePort
-

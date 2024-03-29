@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import { body} from "express-validator";
+import { body } from "express-validator";
 
 import { BadRequestError } from "../errors/bad-request-error";
 import jwt from "jsonwebtoken";
@@ -20,13 +20,12 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-   
     const { email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      throw new BadRequestError('Email in use');
+      throw new BadRequestError("Email in use");
     }
 
     const user = User.build({ email, password });
@@ -39,16 +38,15 @@ router.post(
         id: user.id,
         email: user.email,
       },
-      process.env.JWT_KEY!
+      process.env.JWT_KEY!,
     );
-  
-    req.session = {
-      jwt:userJwt
-    }
-      
-    return res.status(201).send(user.toJSON());
 
-  }
+    req.session = {
+      jwt: userJwt,
+    };
+
+    return res.status(201).send(user.toJSON());
+  },
 );
 
 export { router as signupRouter };

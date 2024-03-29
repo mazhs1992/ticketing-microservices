@@ -10,7 +10,7 @@ declare global {
 }
 
 beforeAll(async () => {
-  process.env.JWT_KEY = 'secretjwtkey'
+  process.env.JWT_KEY = "secretjwtkey";
   mongo = await MongoMemoryServer.create();
   const mongoUri = mongo.getUri();
 
@@ -32,18 +32,18 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-
-global.signin = async() =>{
-  const email = "test@test.com"
-  const password = "password"
+global.signin = async () => {
+  const email = "test@test.com";
+  const password = "password";
   const response = await request(app)
-  .post("/api/users/signup")
-  .send({
-    email, password
-  })
-  .expect(201);
+    .post("/api/users/signup")
+    .send({
+      email,
+      password,
+    })
+    .expect(201);
 
   const cookie = response.get("Set-Cookie") as string[];
 
-  return cookie
-}
+  return cookie;
+};
