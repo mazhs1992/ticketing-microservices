@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import Router from "next/router";
+
 
 export default ({ url, method, body, onSuccess }) => {
   const [errors, setErrors] = useState([]);
@@ -15,6 +15,7 @@ export default ({ url, method, body, onSuccess }) => {
       }
       return response.data;
     } catch (err) {
+      console.error(err);
       setErrors(
         <div className="alert alert-danger">
           <h4>Ooops....</h4>
