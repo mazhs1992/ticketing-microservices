@@ -8,8 +8,7 @@ import { currentUserRouter } from "./routes/current-user";
 import { signoutRouter } from "./routes/signout";
 import { signinUserRouter } from "./routes/signin";
 import { signupRouter } from "./routes/signup";
-import { errorHandler } from "./middleware/error-handler";
-import { NotFoundError } from "./errors/not-found-error";
+import { errorHandler,NotFoundError } from "@vm92tickets/common";
 
 const app = express();
 app.set("trust proxy", true);
