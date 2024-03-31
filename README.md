@@ -33,3 +33,14 @@ CREATE A SECRET
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+
+
+
+  ============  TEST DRIVEN DEVELOPMENT   ============ 
+
+  For ticket service we will proceed with a  TDD approach
+
+  To run test `jest --watchAll --no-cache `
+
+    1. First create test folder
+    2. 
