@@ -26,3 +26,5 @@ Create the url to send request to ingress
 You can also create a `external name service` that will redirect you request
 
 ---
+
+✗ npx prettier . --write
