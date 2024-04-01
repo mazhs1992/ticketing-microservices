@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 interface TicketAttrs {
   title: string;
-  price: string;
+  price: number;
   userId: string;
 }
 
 interface TicketDoc extends mongoose.Document {
   title: string;
-  price: string;
+  price: number;
   userId: string;
 }
 
@@ -23,7 +23,7 @@ const ticketSchema = new mongoose.Schema(
       required: true,
     },
     price: {
-      type: String,
+      type: Number,
       required: true,
     },
     userId: {
@@ -48,6 +48,6 @@ ticketSchema.statics.build = (attrs: TicketAttrs) => {
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
 
-const user = Ticket.build({ title: "123", price: "123",userId: "123"});
+const user = Ticket.build({ title: "123", price: 10,userId: "123"});
 
 export { Ticket };
