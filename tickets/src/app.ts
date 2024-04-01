@@ -6,6 +6,7 @@ import cookieSession from "cookie-session";
 
 import { errorHandler,NotFoundError,currentUser } from "@vm92tickets/common";
 import {createTicketRouter} from "./routes/new";
+import { showTicketRouter } from "./routes/show";
 
 const app = express();
 app.set("trust proxy", true);
@@ -20,6 +21,7 @@ app.use(currentUser);
 
 
 app.use(createTicketRouter);
+app.use(showTicketRouter);
 
 app.get("/api/ticketshome", (req, res) => {
   res.send("Hi from ticketsWelcome service!");
