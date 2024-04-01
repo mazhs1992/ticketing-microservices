@@ -33,14 +33,15 @@ router.put(
       throw new NotAuthorizedError();
     }
 
-    await Ticket.updateOne({_id: req.params.id}, {
+    const updatedTickets = await Ticket.findOneAndUpdate({_id: req.params.id}, {
         $set:{
             title: req.body.title,
             price: req.body.price
-        }
-    });
+        },        
+    },
+    {new: true});
 
-    res.status(200).send(tickets);
+    res.status(200).send(updatedTickets);
   },
 );
 
