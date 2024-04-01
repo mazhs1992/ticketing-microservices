@@ -1,7 +1,6 @@
 import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
-import e from "express";
 
 it('returns a 404 if ticket is not found', async () => {
     const id = new Ticket().id
