@@ -43,4 +43,16 @@ CREATE A SECRET
   To run test `jest --watchAll --no-cache `
 
     1. First create test folder
-    2. 
+  
+
+
+
+    ============  EVENT BUS  ============
+
+    1. create your deployment
+    2. Create your project
+    3. Port forward of our NATS to test it
+        INFO: There are 3 ways to do this
+        1. kubectl get pods  --> get your pod name
+        2. kubectl port-forward nats-depl-65d85db89c-kk69f  4222:4222  (port on my machine):(port of the node)
+        3. on other terminal --> npm run publish
