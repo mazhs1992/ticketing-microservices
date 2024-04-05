@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { natsWrapper } from "./nats-wrapper";
 import { app } from "./app";
 
 const start = async () => {
@@ -9,6 +10,19 @@ const start = async () => {
     throw new Error("MONGO_URI must be defined");
   }
   try {
+    // Connect to NATS
+    //clusterId --> ticketing we initialize this id on infra/k8s/nats-depl.yaml
+    //clientId --> asdasd
+    //url --> http://nats-srv:4222
+    await natsWrapper.connect("ticketing", "asdasd", "http://nats-srv:4222");
+    natsWrapper.client.on("close", () => {
+      console.log("NATS connection closed");
+      process.exit();
+    });
+
+    process.on("SIGINT", () => natsWrapper.client.close());
+    process.on("SIGTERM", () =>natsWrapper.client.close());
+
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB");
   } catch (error: any) {
