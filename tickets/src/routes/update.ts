@@ -11,6 +11,9 @@ import { Ticket } from "../models/ticket";
 
 const router = express.Router();
 
+import {TicketUpdatedPublisher} from '../events/publishers/ticket-updated-publisher'
+import {natsWrapper} from '../nats-wrapper'
+
 router.put(
   "/api/tickets/:id",
   requireAuth,
@@ -40,6 +43,18 @@ router.put(
         },        
     },
     {new: true});
+
+    if(!updatedTickets){
+      console.error('ERROR ON TICKET')
+        throw new NotFoundError();
+    }
+
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: updatedTickets.id,
+      title: updatedTickets.title,
+      price: updatedTickets.price,
+      userId: updatedTickets.userId
+    })
 
     res.status(200).send(updatedTickets);
   },
