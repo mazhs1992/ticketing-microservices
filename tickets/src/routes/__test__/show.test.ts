@@ -2,6 +2,8 @@ import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 
+jest.mock("../../nats-wrapper");
+
 it('returns a 404 if ticket is not found', async () => {
     const id = new Ticket().id
      await request(app)
