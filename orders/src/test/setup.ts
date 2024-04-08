@@ -40,9 +40,12 @@ afterAll(async () => {
 global.signin =  () => {
   // Build a JWT payload. { id, email }
   const id = new mongoose.Types.ObjectId().toHexString();
+
+  //generate a random number between 0 and 100
+  const randomNumber = Math.floor(Math.random() * 100);
   const payload = {
     id: id,
-    email: "test@test.com"
+    email: `test_${randomNumber}@test.com`
   }
 
   //Create the JWT!

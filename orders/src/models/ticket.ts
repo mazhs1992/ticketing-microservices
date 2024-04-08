@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { Order, OrderStatus } from "./orders";
+import mongoose from 'mongoose';
+import { Order, OrderStatus } from './orders';
 
 interface TicketAttrs {
   title: string;
@@ -32,24 +32,19 @@ const ticketSchema = new mongoose.Schema(
     toJSON: {
       transform(doc, ret) {
         ret.id = ret._id;
-        delete ret.__v;
         delete ret._id;
       },
     },
-  },
+  }
 );
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
-
 ticketSchema.methods.isReserved = async function () {
-  //this === the ticket document that we just called 'isReserved' on
-
-  //Run query to look at all orders. Find an order where the ticket
-  //is the ticket we just found and the orders status is not cancelled
-  let existingOrder = await Order.findOne({
-    ticketId: this.ticketId,
+  // this === the ticket document that we just called 'isReserved' on
+  const existingOrder = await Order.findOne({
+    ticket: this,
     status: {
       $in: [
         OrderStatus.Created,
@@ -58,11 +53,10 @@ ticketSchema.methods.isReserved = async function () {
       ],
     },
   });
+
   return !!existingOrder;
 };
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
-
-//const ticket = Ticket.build({ title: "123", price: 10});
+const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
 export { Ticket };
