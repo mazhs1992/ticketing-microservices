@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import { Order, OrderStatus } from "./orders";
-import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { Order, OrderStatus } from './orders';
 
 interface TicketAttrs {
   id: string;
@@ -38,10 +38,10 @@ const ticketSchema = new mongoose.Schema(
         delete ret._id;
       },
     },
-  },
+  }
 );
 
-ticketSchema.set("versionKey", "version");
+ticketSchema.set('versionKey', 'version');
 ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
@@ -67,6 +67,6 @@ ticketSchema.methods.isReserved = async function () {
   return !!existingOrder;
 };
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
+const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
 export { Ticket };

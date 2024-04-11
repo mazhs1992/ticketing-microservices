@@ -15,52 +15,41 @@ import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publ
 import { natsWrapper } from "../nats-wrapper";
 
 router.put(
-  "/api/tickets/:id",
+  '/api/tickets/:id',
   requireAuth,
   [
-    body("title").not().isEmpty().withMessage("Title is required"),
-    body("price")
+    body('title').not().isEmpty().withMessage('Title is required'),
+    body('price')
       .isFloat({ gt: 0 })
-      .withMessage("Price must be greater than 0"),
+      .withMessage('Price must be provided and must be greater than 0'),
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const tickets = await Ticket.findById(req.params.id);
+    const ticket = await Ticket.findById(req.params.id);
 
-    if (!tickets) {
+    if (!ticket) {
       throw new NotFoundError();
     }
 
-    if (tickets.userId !== req.currentUser!.id) {
+    if (ticket.userId !== req.currentUser!.id) {
       throw new NotAuthorizedError();
     }
 
-    const updatedTickets = await Ticket.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $set: {
-          title: req.body.title,
-          price: req.body.price,
-        },
-      },
-      { new: true },
-    );
-
-    if (!updatedTickets) {
-      console.error("ERROR ON TICKET");
-      throw new NotFoundError();
-    }
-
+    ticket.set({
+      title: req.body.title,
+      price: req.body.price,
+    });
+    await ticket.save();
     new TicketUpdatedPublisher(natsWrapper.client).publish({
-      id: updatedTickets.id,
-      title: updatedTickets.title,
-      price: updatedTickets.price,
-      userId: updatedTickets.userId,
-      version: updatedTickets.version,
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+      version: ticket.version,
     });
 
-    res.status(200).send(updatedTickets);
-  },
+    res.send(ticket);
+  }
 );
 
 export { router as updateTicketRouter };
