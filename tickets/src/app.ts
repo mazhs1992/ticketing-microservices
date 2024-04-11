@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
 
-import { errorHandler,NotFoundError,currentUser } from "@vm92tickets/common";
-import {createTicketRouter} from "./routes/new";
+import { errorHandler, NotFoundError, currentUser } from "@vm92tickets/common";
+import { createTicketRouter } from "./routes/new";
 import { showTicketRouter } from "./routes/show";
 import { indexTicketRouter } from "./routes/index";
 import { updateTicketRouter } from "./routes/update";
@@ -20,7 +20,6 @@ app.use(
   }),
 );
 app.use(currentUser);
-
 
 app.use(createTicketRouter);
 app.use(showTicketRouter);
@@ -37,7 +36,5 @@ app.all("*", async () => {
 
 //MIDDLEWARE
 app.use(errorHandler);
-
-
 
 export { app };

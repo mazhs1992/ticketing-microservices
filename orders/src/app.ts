@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 import { json } from "body-parser";
 import cookieSession from "cookie-session";
 
-import { errorHandler,NotFoundError,currentUser } from "@vm92tickets/common";
-import {newOrderRouter} from "./routes/new";
+import { errorHandler, NotFoundError, currentUser } from "@vm92tickets/common";
+import { newOrderRouter } from "./routes/new";
 import { showOrderRouter } from "./routes/show";
 import { indexOrderRouter } from "./routes/index";
 import { deleteOrderRouter } from "./routes/delete";
@@ -26,7 +26,6 @@ app.use(showOrderRouter);
 app.use(indexOrderRouter);
 app.use(deleteOrderRouter);
 
-
 app.get("/api/ticketshome", (req, res) => {
   res.send("Hi from ticketsWelcome service!");
 });
@@ -37,7 +36,5 @@ app.all("*", async () => {
 
 //MIDDLEWARE
 app.use(errorHandler);
-
-
 
 export { app };

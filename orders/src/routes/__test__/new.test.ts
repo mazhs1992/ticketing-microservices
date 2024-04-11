@@ -56,7 +56,7 @@ it("reserves a ticket", async () => {
     .expect(201);
 });
 
-it("emits an order created event",async()=>{
+it("emits an order created event", async () => {
   const ticket = Ticket.build({
     title: "concert",
     price: 20,
@@ -72,4 +72,4 @@ it("emits an order created event",async()=>{
     .expect(201);
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
-})
+});

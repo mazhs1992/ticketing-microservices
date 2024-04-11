@@ -19,7 +19,6 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-
   jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
 
@@ -35,13 +34,13 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
-global.signin =  () => {
+global.signin = () => {
   // Build a JWT payload. { id, email }
   const id = new mongoose.Types.ObjectId().toHexString();
   const payload = {
     id: id,
-    email: "test@test.com"
-  }
+    email: "test@test.com",
+  };
 
   //Create the JWT!
   const token = jwt.sign(payload, process.env.JWT_KEY!);
@@ -53,9 +52,8 @@ global.signin =  () => {
   const sessionJSON = JSON.stringify(session);
 
   // Take JSON and encode it as base64
-  const base64 = Buffer.from(sessionJSON).toString('base64');
+  const base64 = Buffer.from(sessionJSON).toString("base64");
 
   // return a string thats the cookie with the encoded data
   return [`session=${base64}`];
-
 };

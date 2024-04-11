@@ -1,8 +1,9 @@
-import mongoose from 'mongoose';
-import { Order, OrderStatus } from './orders';
+import mongoose from "mongoose";
+import { Order, OrderStatus } from "./orders";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface TicketAttrs {
-  id:string
+  id: string;
   title: string;
   price: number;
 }
@@ -10,6 +11,7 @@ interface TicketAttrs {
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
@@ -36,14 +38,17 @@ const ticketSchema = new mongoose.Schema(
         delete ret._id;
       },
     },
-  }
+  },
 );
+
+ticketSchema.set("versionKey", "version");
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
   return new Ticket({
     _id: attrs.id,
     title: attrs.title,
-    price: attrs.price
+    price: attrs.price,
   });
 };
 ticketSchema.methods.isReserved = async function () {
@@ -62,6 +67,6 @@ ticketSchema.methods.isReserved = async function () {
   return !!existingOrder;
 };
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
+const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", ticketSchema);
 
 export { Ticket };

@@ -96,16 +96,15 @@ it("updates the ticket provided valid inputs", async () => {
     })
     .expect(200);
 
-    const ticketResponce = await request(app)
+  const ticketResponce = await request(app)
     .get(`/api/tickets/${responce.body.id}`)
     .send();
 
-    expect(ticketResponce.body.title).toEqual("new title");
-    expect(ticketResponce.body.price).toEqual(200);
+  expect(ticketResponce.body.title).toEqual("new title");
+  expect(ticketResponce.body.price).toEqual(200);
 });
 
-
-it('publishes an event', async () => {
+it("publishes an event", async () => {
   const cookie = global.signin();
   const responce = await request(app)
     .post(`/api/tickets`)
@@ -124,7 +123,5 @@ it('publishes an event', async () => {
     })
     .expect(200);
 
- 
-
-  expect(natsWrapper.client.publish).toHaveBeenCalled()
-})
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});

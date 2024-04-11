@@ -5,9 +5,8 @@ import { Order, OrderStatus } from "../../models/orders";
 import mongoose from "mongoose";
 
 it("fetches the order", async () => {
-
   //Create a ticket
-  const ticket = Ticket.build({   
+  const ticket = Ticket.build({
     title: "concert",
     price: 20,
   });
@@ -20,7 +19,6 @@ it("fetches the order", async () => {
     .set("Cookie", user)
     .send({ ticketId: ticket.id })
     .expect(201);
-
 
   //make request to fetch the order
 
@@ -34,9 +32,8 @@ it("fetches the order", async () => {
 });
 
 it("returns an error if a user tries to fetch other user order", async () => {
-
   //Create a ticket
-  const ticket = Ticket.build({   
+  const ticket = Ticket.build({
     title: "concert",
     price: 20,
   });
@@ -50,7 +47,6 @@ it("returns an error if a user tries to fetch other user order", async () => {
     .send({ ticketId: ticket.id })
     .expect(201);
 
-
   //make request to fetch the order
 
   const user2 = global.signin();
@@ -59,7 +55,4 @@ it("returns an error if a user tries to fetch other user order", async () => {
     .set("Cookie", user2)
     .send()
     .expect(401);
-
-  
 });
-

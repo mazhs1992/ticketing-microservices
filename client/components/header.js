@@ -10,9 +10,7 @@ export default ({ currentUser }) => {
     .map(({ label, href }) => {
       return (
         <li key={href} className="nav-item p-2">
-          <Link href={href}>
-          {label}
-          </Link>
+          <Link href={href}>{label}</Link>
         </li>
       );
     });
