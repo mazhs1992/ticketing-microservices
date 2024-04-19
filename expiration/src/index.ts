@@ -1,5 +1,5 @@
 import { natsWrapper } from "./nats-wrapper";
-
+import { OrderCreatedListener } from "./events/order-created-listener";
 
 const start = async () => {
  
@@ -27,7 +27,7 @@ const start = async () => {
     process.on("SIGINT", () => natsWrapper.client.close());
     process.on("SIGTERM", () => natsWrapper.client.close());   
 
-    
+    new OrderCreatedListener(natsWrapper.client).listen()
    
   } catch (error: any) {
     console.error(`Error on connection ${error.message}`);
