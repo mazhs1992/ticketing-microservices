@@ -9,6 +9,7 @@ import {
   OrderStatus,
 } from "@vm92tickets/common";
 import { Order } from "../models/orders";
+import { Payment } from "../models/payments";
 import { natsWrapper } from "../nats-wrapper";
 
 import {stripe} from '../stripe'
@@ -41,6 +42,13 @@ router.post(
         currency: 'usd',
         source: token
       });
+
+      const payment =  Payment.build({
+        orderId,
+        stripeId:charge.id
+      })
+
+      await payment.save()
     
       res.status(201).send({success:true})
 

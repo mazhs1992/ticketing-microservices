@@ -11,6 +11,7 @@ import { Order } from "../../models/orders";
 import request from "supertest";
 import { app } from "../../app";
 import { stripe } from "../../stripe";
+import { Payment } from "../../models/payments";
 
 //FIRST TEST  with mock
 // jest.mock("../../stripe");
@@ -75,5 +76,11 @@ it("returns a 204 wuth valid inputs", async () => {
     
       expect(stripeCharge).toBeDefined();
       expect(stripeCharge!.currency).toEqual('usd');
-     
+    
+      const payment = await Payment.findOne({
+        orderId:order.id,
+        stripeId:stripeCharge!.id
+      })
+
+      expect(payment).not.toBeNull()
   });
