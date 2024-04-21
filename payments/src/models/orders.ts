@@ -4,14 +4,14 @@ import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface OrdersAttrs {
   id: string;
-  status: OrderStatus;
+  status: string;
   userId: string;
   price: number;
   version: number;
 }
 
 interface OrderDoc extends mongoose.Document {
-  status: OrderStatus;
+  status: string;
   userId: string;
   price: number;
   version: number;
@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      // enum: Object.values(OrderStatus),
+      enum: Object.values(OrderStatus),
       // default: OrderStatus.Created,
     },
     price: {
