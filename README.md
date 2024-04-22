@@ -1,4 +1,9 @@
-SET UP A SERVICE
+#  INFO
+
+This is a project from course "Microservices with Node JS and React" by Stephen Grider. 
+
+
+# SET UP A SERVICE
 
     1. set up your server
     2. containerize it
@@ -7,19 +12,15 @@ SET UP A SERVICE
     5. minikube start --driver=docker
     6. skaffold dev
 
-Set up ingress for communication of the out word with your Pods 1. Go to ingress-nginx 2. on deployment get kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml 3. create a ingress-srv.yaml 4. Redirect out localhost to ticketing.dev
-a. code /etc/hosts (\*)
+ #### Set up ingress for communication of the out word with your Pods :
 
-TROUBLESHOOTING
+    1.  Go to ingress-nginx https://kubernetes.github.io/ingress-nginx/deploy/
+    2.  Get command to install the Ingress-Nginx Controller:  `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml` 
+    3.  Create a ingress-srv.yaml 
+    4.  Redirect out localhost to ticketing.dev
+            a. nano /etc/hosts 
 
-- (\*) if you get "zsh: command not found: code" --> https://stackoverflow.com/questions/74634438/code-command-not-found-in-vs-code-on-mac
-
-- minikube addons enable ingress
-
-INGRESS 1. kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml 2. kubectl get pods --namespace=ingress-nginx  
- 3. on chroome type 'thisisunsafe'
-
-CREATE A SECRET
+# CREATE A SECRET
 
     1.
         kubectl create secret generic jwt-secret --from-literal=JWT_KEY==asdf
@@ -34,18 +35,9 @@ CREATE A SECRET
                   name: jwt-secret
                   key: JWT_KEY
 
-============ TEST DRIVEN DEVELOPMENT ============
-
-For ticket service we will proceed with a TDD approach
-
-To run test `jest --watchAll --no-cache `
-
-    1. First create test folder
 
 
-
-
-    ============  EVENT BUS  ============
+# EVENT BUS 
 
     1. create your deployment
     2. Create your project
